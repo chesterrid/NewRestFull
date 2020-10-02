@@ -1,5 +1,6 @@
 package com.restfull.demo.controller;
 
+import com.restfull.demo.database.CreateTable;
 import com.restfull.demo.models.ResponseB;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,8 @@ import java.util.concurrent.atomic.AtomicLong;
 @Controller
 //@RequestMapping("calculate")
 public class MessageController {
+
+    CreateTable createTable = new CreateTable();
 
     @GetMapping("increment")
     public int increment (@RequestHeader int a, @RequestHeader int b){
@@ -31,11 +34,12 @@ public class MessageController {
         return a/b;
     }
 
-    @RequestMapping("/plus")
+    @RequestMapping("/registration")
     @ResponseBody
-    public ResponseB aaa (@RequestParam(value = "a", required = true)int a,
-                          @RequestParam(value = "b", required = true)int b){
-        return new ResponseB(a+b);
+    public ResponseB aaa (@RequestParam(value = "email", required = true)String email,
+                          @RequestParam(value = "password", required = true)String password){
+        createTable.connectDataBase(email, password);
+        return new ResponseB(1);
     }
 
 }
